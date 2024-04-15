@@ -11,6 +11,9 @@
 # production
 /build
 
+# Ignore .env file (for security reasons, .env should not be committed to version control)
+.env
+
 # misc
 .DS_Store
 .env.local

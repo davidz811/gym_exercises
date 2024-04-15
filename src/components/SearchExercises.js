@@ -24,40 +24,41 @@ export default function SearchExercises() {
     //console.log(bodyPartsData); //all bodyParts
 
 
-    function validateInput(e) {
+    async function handleSearch(e) {
         e.preventDefault();
 
-        let myExercises = (exercises.map((exercise) => (exercise.name.toLowerCase().includes(search))))
-        if (search === '' || !(bodyPartsData.includes(search)) || !(myExercises)) {
-            setError(true);
-        }
-    }
-
-
-    async function handleSearch() {
         if (search) {
-            setError(false);
-            const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises?limit=900', exerciseOptions);
-            //console.log(exercisesData);
+            const exercisesData = await fetchData(
+                'https://exercisedb.p.rapidapi.com/exercises?limit=900',
+                exerciseOptions
+            );
 
             const searchedExercises = exercisesData.filter((exercise) =>
                 exercise.name.toLowerCase().includes(search) ||
                 exercise.bodyPart.toLowerCase().includes(search) ||
                 exercise.equipment.toLowerCase().includes(search) ||
                 exercise.target.toLowerCase().includes(search)
-            )
+            );
+
+            if (searchedExercises.length === 0) {
+                setError(true)
+            } else {
+                setError(false)
+            }
+
             setSearch('');
             setExercises(searchedExercises);
-
-            //exercises = searchedExercises
+        } else {
+            setError(true);
         }
+        console.log(error)
     }
 
     return (
         <div className='main-container'>
             <h1 className='awesomeExercises'>Great Exercises to <br /> Train with</h1>
             <div className='inputContainer'>
-                <form onSubmit={validateInput}>
+                <form onSubmit={handleSearch}>
                     <input
                         placeholder='Search Exercises'
                         value={search}
@@ -65,14 +66,10 @@ export default function SearchExercises() {
                         type='text'
                         className='search-input '
                     />
-                    <button className='searchButton' onClick={handleSearch}>
+                    <button className='searchButton'>
                         Search
                     </button>
-                    {/* <div className='error'>
-                        {error && search.length === 0 ? <label>Please type something</label> : ''}
-                    </div> */}
-
-                    <div className='error'>
+                    <div className='text-red-700 text-2xl my-3 text-center font-sans'>
                         {error ? <label>Please enter a valid value</label> : ''}
                     </div>
                 </form>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import bmi from '../assets/images/bmi-image.jpg'
+import bmi from '../assets/images/my_bmi.jpg'
 import underweight from '../assets/images/underweight.png'
 import healthy from '../assets/images/healthy.png'
 import overweight from '../assets/images/overweight.png'
@@ -12,7 +12,6 @@ const BmiCalculator = () => {
     const [bmiState, setBmiState] = useState("");
     const [message, setMessage] = useState("");
     const [bmiImage, setBmiImage] = useState("");
-
 
     useEffect(() => {
         let imgSrc = '';
@@ -39,7 +38,7 @@ const BmiCalculator = () => {
         //prevent submitting
         e.preventDefault();
 
-        if (weight === 0 || height === 0) {
+        if ((weight === 0 || height === 0) || (weight < 0 || height < 0)) {
             if (e.nativeEvent.submitter.name !== 'reloadButton') {
                 alert('Please enter a valid weight and height');
             }
@@ -62,35 +61,42 @@ const BmiCalculator = () => {
 
     return (
         <>
-            <div className='bmi-container'>
-                <div className='secondary-container'>
-                    <h2 className='bmi-text'>BMI Calculator</h2>
-                    <form className='bmi-form' onSubmit={calculateBmi}>
-                        <div className='inside-form'>
-                            <label className='label'>Weight (kg)</label>
+            <div className='flex justify-center items-center'>
+                <div className='bg-[#f8f8f8] min-w-[500px] my-3'>
+                    <h2 className='text-center font-serif text-3xl'>
+                        BMI Calculator
+                    </h2>
+                    <form className='my-3' onSubmit={calculateBmi}>
+                        <div className='flex flex-col items-center'>
+                            <label>Weight (kg)</label>
                             <input
                                 type='number' placeholder='Your Weight' value={weight}
                                 onChange={(e) => setWeight(e.target.value)} className='bmi-input'
                             />
                         </div>
-                        <div className='inside-form'>
-                            <label className='label'>Height (cm)</label>
+                        <div className='flex flex-col items-center py-3'>
+                            <label>Height (cm)</label>
                             <input
                                 type='number' placeholder='Your Height' value={height}
                                 onChange={(e) => setHeight(e.target.value)} className='bmi-input'
                             />
                         </div>
-                        <div className='bmi-buttons'>
-                            <button type='submit' className='submit-reload-button'>Submit</button>
-                            <button onClick={reload} className='submit-reload-button' name='reloadButton'>Reset</button>
+                        <div className='flex h-11 my-3'>
+                            <button type='submit'
+                                className='w-full bg-[#FF2625] mx-3 text-white text-base rounded-sm text-center border-color-[#FF2625]'>
+                                Submit
+                            </button>
+                            <button onClick={reload} className='w-full bg-[#FF2625] mx-3 text-white text-base rounded-sm text-center border-none' name='reloadButton'>Reset</button>
                         </div>
                     </form>
-                    <div className='bmiText'>
-                        <p className='your-bmi'>Your BMI is: {bmiState}</p>
-                        <p className='you-are'>{message}</p>
-                    </div>
-                    <div className='bmi-photo'>
-                        <img src={bmiImage} className='kid-img' />
+                    <div className='text-center'>
+                        <div>
+                            <p className='font-semibold text-2xl'>Your BMI is: {bmiState}</p>
+                            <p className='my-2'>{message}</p>
+                        </div>
+                        <div className='flex justify-center'>
+                            <img src={bmiImage} className='max-h-[150px]' />
+                        </div>
                     </div>
                 </div>
             </div>

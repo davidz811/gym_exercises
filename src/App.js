@@ -30,7 +30,7 @@ export default function App() {
                         element={<WorkoutDetails />} />
                     <Route path="/bmi" element={<BmiCalculatorPage />} />
                     <Route path="/create-workouts" element={<CreateWorkoutsPage />} />
-                    <Route path="/createExercise" element={<CreateExercisePage />} />
+                    <Route path="/createExercise/:workoutId" element={<CreateExercisePage />} />
                 </Routes>
                 <Footer />
             </div>

@@ -25,6 +25,9 @@ app.get('/workouts/workoutId/:workoutId', db.getDataAboutWorkout);
 app.get('/workouts/workouts', db.getWorkouts);
 app.get('/workouts/easyWorkouts', db.getEasyWorkouts);
 app.post('/workouts/createWorkouts', db.createWorkouts);
+app.delete('/workouts/deleteWorkout/:workoutId', db.deleteWorkout);
+app.post('/workouts/createExercise/:workoutId', db.createExercise);
+app.delete('/workouts/deleteExercise/:exerciseId', db.deleteExercise);
 // app.get('/users/:id', db.getUserById)
 // app.post('/users', db.createUser)
 // app.put('/users/:id', db.updateUser)

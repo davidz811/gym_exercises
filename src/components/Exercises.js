@@ -12,7 +12,6 @@ export default function Exercises() {
     const [currentPage, setCurrentPage] = useState(1);
     const cardsOnPage = 9;
 
-
     useEffect(() => {
         async function fetchExercises() {
             let exercisesData = [];
@@ -37,7 +36,6 @@ export default function Exercises() {
     const indexOfFirstPage = indexOfLastPage - cardsOnPage;
 
     const currentExercisesOnPage = exercises.slice(indexOfFirstPage, indexOfLastPage);
-
 
     return (
         <Box

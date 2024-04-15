@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react'
 
 const ExercisesForWorkout = ({ workoutExercise }) => {
 
-    // console.log(workoutExercise.exercise_name);
     return (
         <>
             <div className='exercise'>
-                <img src={workoutExercise.exercises_gif_url} className='exercise-image-workout' />
+                <img src={workoutExercise.exercises_gif_url} className='w-40' />
                 <p className='exercise-text'>{workoutExercise.exercise_name}</p>
                 <div className='sets-reps-duration'>
-                    <p className='  sets-reps-duration-details'>
+                    <p className='sets-reps-duration-details'>
                         {workoutExercise.sets}
                         <span className='x'>
-                            x   
+                            x
                         </span>
                         {workoutExercise.reps}
                         reps

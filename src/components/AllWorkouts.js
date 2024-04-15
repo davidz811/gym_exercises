@@ -21,7 +21,7 @@ const AllWorkouts = () => {
 
     const exercisesOnPage = workoutsData.slice(indexOfFirstPage, indexOfLastPage);
 
-    console.log('Exercises on page :', exercisesOnPage);
+    // console.log('Exercises on page :', exercisesOnPage);
 
     function handleNextPage() {
         setCurrentPage(currentPage + 1);

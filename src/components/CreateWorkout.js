@@ -16,11 +16,12 @@ const CreateWorkout = () => {
 
         setWorkoutData({
             ...workoutData,
-            [name]: value,
+            [name]: value
         })
-        // console.log(workoutData);
+        console.log(workoutData);
     }
 
+    //function for adding workouts
     async function handleSubmit(e) {
         e.preventDefault();
         try {
@@ -29,7 +30,6 @@ const CreateWorkout = () => {
             if (response.status === 201) {
                 const addedWorkout = response.data;
                 console.log('Workout created successfully!', addedWorkout);
-
             } else {
                 console.error('Failed to create workout');
             }
@@ -39,35 +39,33 @@ const CreateWorkout = () => {
     }
 
     return (
-        <div className='create-workout-container'>
-            <h2 className='create-workout'>Create your own Workout</h2>
-            <div className='create-workout-form'>
-                <form onSubmit={handleSubmit}>
+        <div className='w-full h-screen'>
+            <h2 className='text-center text-3xl font-semibold py-8'>Create your own Workout</h2>
+            <div className='flex justify-center'>
+                <form onSubmit={handleSubmit} className='flex flex-col min-w-[450px] my-10'>
                     <input
                         type='text'
                         placeholder='Name'
                         name='name'
                         value={workoutData.name}
-                        className='name-gif_url-input'
+                        className='w-full p-2 text-center bg-slate-200'
                         onChange={handleInputChange}
                     />
-                    <br />
                     <input
                         type='text'
                         placeholder='gif_url'
                         name='gif_url'
                         value={workoutData.gif_url}
-                        className='name-gif_url-input'
+                        className='w-full p-2 text-center my-3 bg-slate-200'
                         onChange={handleInputChange}
                     />
-                    <div className='create-button-cont'>
-                        <button className='create-button'>
+                    <div className='flex justify-center my-4'>
+                        <button className='p-2 bg-[#FF2625] text-white rounded-lg'>
                             Create Workout
                         </button>
                     </div>
                 </form>
             </div>
-            <img src={wimg} className='background-img' />
         </div>
     )
 }

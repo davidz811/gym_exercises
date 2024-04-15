@@ -92,7 +92,7 @@ const getEasyWorkouts = (request, response) => {
     })
 }
 
-//for creating workout card
+//endpoint for creating workout card
 const createWorkouts = (request, response) => {
     const { name, gif_url } = request.body;
 
@@ -104,6 +104,90 @@ const createWorkouts = (request, response) => {
     })
 }
 
+const deleteWorkout = (request, response) => {
+    const workoutId = parseInt(request.params.workoutId);
+
+    if (workoutId > 12) {
+        pool.query('DELETE FROM workouts WHERE workout_id = $1', [workoutId], (error, results) => {
+            if (error) {
+                throw error;
+            }
+
+            if (results.rowCount === 0) {
+                response.status(404).send(`Workout with ID ${workoutId} not found.`);
+            } else {
+                response.status(200).send(`Workout with ID ${workoutId} deleted successfully.`);
+            }
+        });
+    } else {
+        response.status(403).send(`Cannot delete workout with ID ${workoutId}. ID must be greater than 12.`);
+    }
+}
+
+const createExercise = (request, response) => {
+    const workoutId = parseInt(request.params.workoutId);
+
+    const { imageUrl, exerciseName, sets, reps, duration, restTime, equipment } = request.body;
+
+    if (!workoutId) {
+        return response.status(400).send('Workout ID is required');
+    }
+
+    pool.query('INSERT INTO exercises (exercise_name, exercises_gif_url, muscle_group, equipment, difficulty_level) VALUES ($1, $2, $3, $4, $5) RETURNING exercise_id ',
+        [exerciseName, imageUrl, '', equipment, ''],
+        (error, results) => {
+            if (error) {
+                throw error;
+            }
+            const exerciseId = results.rows[0].exercise_id;
+
+            pool.query('INSERT INTO workouts_exercises (exercise_id, workout_id, sets, reps, exercise_duration, rest_time) VALUES ($1, $2, $3, $4, $5, $6)',
+                [exerciseId, workoutId, sets, reps, duration, restTime],
+                (error, insertResults) => {
+                    if (error) {
+                        throw error;
+                    }
+                    response.status(201).send(`Exercise added with ID: ${exerciseId}`)
+                }
+            )
+        })
+}
+
+
+const deleteExercise = (request, response) => {
+    const exerciseId = parseInt(request.params.exerciseId);
+
+    // if (!exerciseId) {
+    //     return response.status(400).send('Exercise ID is required');
+    // }
+
+    if (exerciseId > 80) {
+        pool.query('DELETE FROM workouts_exercises WHERE exercise_id = $1', [exerciseId], (error, results) => {
+            if (error) {
+                throw error
+            }
+
+            if (results.rowCount === 0) {
+                response.status(404).send(`Exercise with ID ${exerciseId} not found`);
+            } else {
+                pool.query('DELETE FROM exercises WHERE exercise_id = $1 ', [exerciseId], (error, results) => {
+                    if (error) {
+                        throw error;
+                    } else {
+                        if (results.rowCount === 0) {
+                            response.status(404).send(`Exercise with ID ${exerciseId} not found`);
+                        } else {
+                            response.status(200).send(`Exercise with ID ${exerciseId} deleted successfully`);
+                        }
+                    }
+                })
+            }
+        })
+    } else {
+        response.status(403).send(`Cannot delete Exercise , Exercise with ID ${exerciseId} must be grater than 80`);
+    }
+}
+
 // const getUsers = (request, response) => {
 //     pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
 //         if (error) {
@@ -113,54 +197,54 @@ const createWorkouts = (request, response) => {
 //     })
 // }
 
-const getUserById = (request, response) => {
-    const id = parseInt(request.params.id)
+// const getUserById = (request, response) => {
+//     const id = parseInt(request.params.id)
 
-    pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
-    })
-}
+//     pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+//         if (error) {
+//             throw error
+//         }
+//         response.status(200).json(results.rows)
+//     })
+// }
 
-const createUser = (request, response) => {
-    const { name, email } = request.body
+// const createUser = (request, response) => {
+//     const { name, email } = request.body
 
-    pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(201).send(`User added with ID: ${results.insertId}`)
-    })
-}
+//     pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+//         if (error) {
+//             throw error
+//         }
+//         response.status(201).send(`User added with ID: ${results.insertId}`)
+//     })
+// }
 
-const updateUser = (request, response) => {
-    const id = parseInt(request.params.id)
-    const { name, email } = request.body
+// const updateUser = (request, response) => {
+//     const id = parseInt(request.params.id)
+//     const { name, email } = request.body
 
-    pool.query(
-        'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-        [name, email, id],
-        (error, results) => {
-            if (error) {
-                throw error
-            }
-            response.status(200).send(`User modified with ID: ${id}`)
-        }
-    )
-}
+//     pool.query(
+//         'UPDATE users SET name = $1, email = $2 WHERE id = $3',
+//         [name, email, id],
+//         (error, results) => {
+//             if (error) {
+//                 throw error
+//             }
+//             response.status(200).send(`User modified with ID: ${id}`)
+//         }
+//     )
+// }
 
-const deleteUser = (request, response) => {
-    const id = parseInt(request.params.id)
+// const deleteUser = (request, response) => {
+//     const id = parseInt(request.params.id)
 
-    pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).send(`User deleted with ID: ${id}`)
-    })
-}
+//     pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+//         if (error) {
+//             throw error
+//         }
+//         response.status(200).send(`User deleted with ID: ${id}`)
+//     })
+// }
 
 module.exports = {
     getWorkouts,
@@ -170,7 +254,9 @@ module.exports = {
     getDataAboutWorkout,
     getEasyWorkouts,
     createWorkouts,
-    getUserById,
+    deleteWorkout,
+    createExercise,
+    deleteExercise,
     createUser,
     updateUser,
     deleteUser,
