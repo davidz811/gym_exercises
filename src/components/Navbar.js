@@ -82,9 +82,11 @@ const Navbar = () => {
                                     <NavLink to={"/workouts"} className='nav-link text-black'>
                                         Workouts
                                     </NavLink>
-                                    <NavLink to={"/create-workouts"} className='nav-link text-black'>
-                                        Create Workouts
-                                    </NavLink>
+                                    {isLoggedIn ? (
+                                        <NavLink to={"/create-workouts"} className='nav-link text-black'>
+                                            Create Workouts
+                                        </NavLink>
+                                    ) : ''}
                                 </div>
                             </div>
                         }

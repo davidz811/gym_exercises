@@ -96,6 +96,10 @@ const getEasyWorkouts = (request, response) => {
 const createWorkouts = (request, response) => {
     const { name, gif_url } = request.body;
 
+    if (!name || !gif_url) {
+        return response.status(400).json({ error: 'Name and GIF URL are required' });
+    }
+
     pool.query('INSERT INTO workouts (name , gif_url) VALUES ($1, $2)', [name, gif_url], (error, results) => {
         if (error) {
             throw error
@@ -131,6 +135,10 @@ const createExercise = (request, response) => {
 
     if (!workoutId) {
         return response.status(400).send('Workout ID is required');
+    }
+
+    if (!imageUrl || !exerciseName || !sets || !reps || !duration || !restTime || !equipment) {
+        return response.status(400).json({ error: 'imageUrl , exerciseName , sets , reps , duration , restTime , equipment are required' });
     }
 
     pool.query('INSERT INTO exercises (exercise_name, exercises_gif_url, muscle_group, equipment, difficulty_level) VALUES ($1, $2, $3, $4, $5) RETURNING exercise_id ',
@@ -257,7 +265,4 @@ module.exports = {
     deleteWorkout,
     createExercise,
     deleteExercise,
-    createUser,
-    updateUser,
-    deleteUser,
 }

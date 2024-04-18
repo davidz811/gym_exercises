@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Stack } from '@mui/material'
 
 
-export default function ExerciseCard({ exercise, index }) {
+export default function ExerciseCard({ exercise }) {
     return (
         <Link className='exercise-card' to={`/exercise/${exercise.id}`} >
             <img src={exercise.gifUrl} loading='lazy' />
