@@ -1,4 +1,4 @@
-### Fullstack PERN Fitness App 
+# Fullstack PERN Fitness App 
 Embark on your fitness journey with this comprehensive Fitness Application! Whether you're looking to build custom workouts, or explore new exercises, our app has you covered.
 ## Key features
 - User Authentication: Secure registration and login system for personalized user experiences.
