@@ -8,12 +8,9 @@ Each workout is carefully crafted to target specific muscle groups and achieve b
 - BMI Calculator: Calculate Body Mass Index (BMI) to monitor fitness levels.
 - Exercises Features: Explore over 1200 exercises, where each exercise includes detailed description , Youtube Videos and a Gif for the exercise.
 ## Access Control and User Privilages
-### User Sign-Up and Login:
-Users can create an account and log in to access the full range of features.
-### Access Control:
--Logged-In Users:
-View all exercises and detailed exercise information.
-CRUD (Create, Read, Update, Delete) workouts and exercises to personalize their fitness routines.
+### Logged-In Users:
+- View all exercises and detailed exercise information.
+- CRUD (Create, Read, Update, Delete) workouts and exercises to personalize their fitness routines.
 ### Guest Users:
 - Limited access to a subset of exercises.
 - View a selection of pre-made workouts without specific pre-made exercises.
