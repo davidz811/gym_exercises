@@ -14,5 +14,3 @@ Each workout is carefully crafted to target specific muscle groups and achieve b
 ### Guest Users:
 - Limited access to a subset of exercises.
 - View a selection of pre-made workouts without specific pre-made exercises.
- ### Screenshots
- 
